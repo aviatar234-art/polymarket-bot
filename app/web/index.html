@@ -3,66 +3,121 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Polymarket Bot | דשבורד חכם למסחר</title>
+    <title>💸 Money Printer — moneyprinter.trade</title>
     <meta
       name="description"
-      content="אתר שיווקי ודשבורד מודרני לבוט Polymarket עם שליטה בסריקה, מסחר והתראות בזמן אמת."
+      content="Ultra-premium Hebrew dashboard for market trading, prediction, shark radar, and AI-driven insights."
     />
     <link rel="stylesheet" href="/web/styles.css" />
   </head>
   <body>
-    <header class="hero">
-      <nav class="topbar container">
-        <span class="brand">Polymarket Bot</span>
-        <a class="cta-link" href="#domain">חיבור לדומיין שלך</a>
+    <div class="cursor-glow" id="cursorGlow"></div>
+    <div class="coins" aria-hidden="true">
+      <span>🪙</span><span>🪙</span><span>🪙</span><span>🪙</span><span>🪙</span>
+    </div>
+
+    <header class="sticky-header glass">
+      <div class="brand-wrap">
+        <h1 class="money-printer shimmer">💸 Money Printer — moneyprinter.trade</h1>
+        <span class="badge live"><i></i>LIVE</span>
+      </div>
+      <nav class="tabs" id="tabs">
+        <button data-target="scanner">Scan Markets</button>
+        <button data-target="signals">Signals</button>
+        <button data-target="sharks">Sharks</button>
+        <button data-target="news">AI News</button>
+        <button data-target="strategies">Strategies</button>
       </nav>
-      <div class="hero-content container">
-        <p class="tag">מסחר אוטומטי • ניטור שווקים • התראות טלגרם</p>
-        <h1>הפכנו את המערכת שלך לאתר יפה ומוכן לדומיין אישי</h1>
-        <p>
-          אתר נחיתה נקי עם דשבורד בזמן אמת שמתחבר ישירות ל־API שלך.
-          אפשר להציג למשקיעים, לצוות או ללקוחות בצורה מקצועית.
-        </p>
-        <div class="actions">
-          <button id="scanBtn">סרוק שווקים עכשיו</button>
-          <button id="startBtn" class="secondary">התחל מסחר</button>
-        </div>
+      <div class="header-actions">
+        <button id="themeToggle" class="ghost">🌙/☀️</button>
       </div>
     </header>
 
-    <main class="container">
-      <section class="cards">
-        <article>
-          <h3>שווקים שנסרקו</h3>
-          <p id="marketsCount">--</p>
-        </article>
-        <article>
-          <h3>סיגנלים שזוהו</h3>
-          <p id="signalsCount">--</p>
-        </article>
-        <article>
-          <h3>סטטוס מסחר</h3>
-          <p id="tradeStatus">מושהה</p>
-        </article>
+    <section class="ticker-wrap">
+      <div class="ticker" id="ticker">טוען נתונים חיים...</div>
+    </section>
+
+    <main class="dashboard" id="dashboard">
+      <section class="panel metrics" draggable="true">
+        <h3>מדדי בוט בזמן אמת</h3>
+        <div class="metric-grid">
+          <article><span>PnL</span><strong id="pnlValue">$0.00</strong></article>
+          <article><span>Signals</span><strong id="signalsCount">0</strong></article>
+          <article><span>Markets</span><strong id="marketsCount">0</strong></article>
+          <article><span>Shark Alerts</span><strong id="sharkCount">0</strong></article>
+          <article><span>Win Rate</span><strong id="winRate">0%</strong></article>
+        </div>
       </section>
 
-      <section class="panel">
-        <h2>סיגנלים אחרונים</h2>
-        <ul id="signalsList">
-          <li>עדיין אין נתונים. לחץ על "סרוק שווקים עכשיו".</li>
-        </ul>
+      <section id="scanner" class="panel" draggable="true">
+        <div class="panel-head">
+          <h3>Market Scanner</h3>
+          <button id="scanBtn">Analyze All</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Market Name</th><th>YES</th><th>NO</th><th>Edge %</th><th>Analyze</th></tr>
+            </thead>
+            <tbody id="marketsTable"></tbody>
+          </table>
+        </div>
       </section>
 
-      <section id="domain" class="panel">
-        <h2>איך לחבר דומיין משלך</h2>
-        <ol>
-          <li>העלה את השירות לשרת (Render / Railway / VPS).</li>
-          <li>הגדר Reverse Proxy עם Nginx לכתובת של FastAPI.</li>
-          <li>צור רשומת DNS מסוג A או CNAME אצל ספק הדומיין.</li>
-          <li>הפעל תעודת SSL עם Let's Encrypt.</li>
-        </ol>
+      <section id="signals" class="panel" draggable="true">
+        <div class="panel-head"><h3>Signals + Chart</h3></div>
+        <canvas id="signalsChart" height="120"></canvas>
+        <ul id="signalFeed" class="feed"></ul>
+      </section>
+
+      <section id="sharks" class="panel" draggable="true">
+        <div class="panel-head"><h3>Shark Radar</h3><button id="soundToggle" class="ghost">🔔 Sound</button></div>
+        <ul id="sharkList" class="feed"></ul>
+      </section>
+
+      <section id="news" class="panel" draggable="true">
+        <div class="panel-head"><h3>AI News & Sentiment</h3></div>
+        <ul id="newsList" class="feed"></ul>
+      </section>
+
+      <section id="strategies" class="panel" draggable="true">
+        <div class="panel-head"><h3>Strategies Control</h3></div>
+        <div id="strategiesGrid" class="strategies-grid"></div>
+      </section>
+
+      <section class="panel trading-controls" draggable="true">
+        <h3>Trading Controls</h3>
+        <div class="controls-row">
+          <button id="startBtn" class="success">Start Bot</button>
+          <button id="stopBtn" class="danger">Stop Bot</button>
+          <button id="simBtn" class="ghost">Simulation: ON</button>
+          <span id="botStatus" class="badge">OFFLINE</span>
+        </div>
+        <div class="range-group">
+          <label>Min Trade Size <input type="range" id="minSize" min="1" max="50" value="5" /></label>
+          <label>Max Trade Size <input type="range" id="maxSize" min="10" max="500" value="120" /></label>
+        </div>
+      </section>
+
+      <section class="panel chat-panel" draggable="true">
+        <h3>AI Assistant</h3>
+        <div id="chatLog" class="chat-log"></div>
+        <div class="chat-input">
+          <input id="chatInput" placeholder="שאל את ה-AI על שווקים, סיכונים ואסטרטגיות..." />
+          <button id="sendChat">שלח</button>
+        </div>
       </section>
     </main>
+
+    <div id="analysisModal" class="modal">
+      <div class="modal-content glass">
+        <button id="closeModal" class="ghost">✕</button>
+        <h3>ניתוח AI לשוק</h3>
+        <div id="modalBody"></div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
 
     <script src="/web/app.js"></script>
   </body>
