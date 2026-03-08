@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Polymarket Bot | דשבורד חכם למסחר</title>
+    <meta
+      name="description"
+      content="אתר שיווקי ודשבורד מודרני לבוט Polymarket עם שליטה בסריקה, מסחר והתראות בזמן אמת."
+    />
+    <link rel="stylesheet" href="/web/styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="topbar container">
+        <span class="brand">Polymarket Bot</span>
+        <a class="cta-link" href="#domain">חיבור לדומיין שלך</a>
+      </nav>
+      <div class="hero-content container">
+        <p class="tag">מסחר אוטומטי • ניטור שווקים • התראות טלגרם</p>
+        <h1>הפכנו את המערכת שלך לאתר יפה ומוכן לדומיין אישי</h1>
+        <p>
+          אתר נחיתה נקי עם דשבורד בזמן אמת שמתחבר ישירות ל־API שלך.
+          אפשר להציג למשקיעים, לצוות או ללקוחות בצורה מקצועית.
+        </p>
+        <div class="actions">
+          <button id="scanBtn">סרוק שווקים עכשיו</button>
+          <button id="startBtn" class="secondary">התחל מסחר</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="cards">
+        <article>
+          <h3>שווקים שנסרקו</h3>
+          <p id="marketsCount">--</p>
+        </article>
+        <article>
+          <h3>סיגנלים שזוהו</h3>
+          <p id="signalsCount">--</p>
+        </article>
+        <article>
+          <h3>סטטוס מסחר</h3>
+          <p id="tradeStatus">מושהה</p>
+        </article>
+      </section>
+
+      <section class="panel">
+        <h2>סיגנלים אחרונים</h2>
+        <ul id="signalsList">
+          <li>עדיין אין נתונים. לחץ על "סרוק שווקים עכשיו".</li>
+        </ul>
+      </section>
+
+      <section id="domain" class="panel">
+        <h2>איך לחבר דומיין משלך</h2>
+        <ol>
+          <li>העלה את השירות לשרת (Render / Railway / VPS).</li>
+          <li>הגדר Reverse Proxy עם Nginx לכתובת של FastAPI.</li>
+          <li>צור רשומת DNS מסוג A או CNAME אצל ספק הדומיין.</li>
+          <li>הפעל תעודת SSL עם Let's Encrypt.</li>
+        </ol>
+      </section>
+    </main>
+
+    <script src="/web/app.js"></script>
+  </body>
+</html>

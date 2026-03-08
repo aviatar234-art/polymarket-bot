@@ -22,6 +22,10 @@ app/
   risk_engine.py
   telegram_bot.py
   database.py
+  web/
+    index.html
+    styles.css
+    app.js
 requirements.txt
 .env.example
 README.md
@@ -41,18 +45,28 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-3. Run API:
+3. Run API + web UI:
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
+Open `http://127.0.0.1:8000` to see the website/dashboard.
+
 ## Endpoints
 
+- `GET /` - Marketing website + dashboard UI.
 - `GET /scan` - Fetch markets and store detected signals.
 - `GET /signals` - List recent signals from SQLite.
 - `POST /start-trading` - Scan + prepare trades when risk limits pass.
 - `POST /stop-trading` - Disable trading mode.
+
+## Connect your own domain
+
+1. Deploy the app on a server (Render/Railway/VPS).
+2. Put Nginx in front of FastAPI (reverse proxy to port `8000`).
+3. Add DNS records (A/CNAME) from your domain provider to the server.
+4. Enable HTTPS with Let's Encrypt.
 
 ## Signal rule
 

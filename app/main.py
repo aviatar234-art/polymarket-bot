@@ -3,7 +3,11 @@ from __future__ import annotations
 import os
 from typing import Any
 
+from pathlib import Path
+
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 
 from app.database import count_open_positions, init_db, list_signals, save_signal, save_trade
@@ -15,7 +19,11 @@ from app.telegram_bot import TelegramBot, format_signal_message
 
 load_dotenv()
 
+BASE_DIR = Path(__file__).resolve().parent
+WEB_DIR = BASE_DIR / "web"
+
 app = FastAPI(title="Polymarket Trading Bot")
+app.mount("/web", StaticFiles(directory=WEB_DIR), name="web")
 
 engine = ExecutionEngine()
 telegram = TelegramBot()
@@ -33,6 +41,11 @@ def scan_and_generate_signals() -> tuple[int, list[dict[str, Any]]]:
     for signal in signals:
         save_signal(signal)
     return len(markets), signals
+
+
+@app.get("/")
+def home() -> FileResponse:
+    return FileResponse(WEB_DIR / "index.html")
 
 
 @app.get("/scan")
